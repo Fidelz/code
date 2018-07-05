@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Zonas</title>
+      <link rel="stylesheet" href="{{request.static_url('fidel:static/zones.css') }}">
+      <!-- Make sure you put this AFTER Leaflet's CSS -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   </head>
+   <body>
+      <h1 id="title_page">Zonas</h1>
+      <form id="form_search_zone" action="/search_zones" method="GET">
+        <input type="search" name="acronym" placeholder="Busqueda">
+        <input id="button_add_zone" type="submit" value="Buscar">
+      </form>
+      <table>
+         <tr>
+            <th>*</th>
+            <th>acronym</th>
+            <th>dateadd</th>
+            <th>Ver</th>
+            <th>Borrar</th>
+         </tr>
+         {% for zone in zones %}
+         <tr>
+            <td>{{ loop.index + index }}</td>
+            <td>{{ zone.acronym }}</td>
+            <td>{{ zone.dateadd }}</td>
+            <td><a href="zone?id={{ zone.id }}">&#10010</a></td>
+            <td><a href="delete_zone?id={{ zone.id }}">&#10060</a></td>
+         </tr>
+         {% endfor %}
+      </table>
+      <div id="pr">{{ pagination }}</div>
+      <script>
+         var pagination = $("#pr");
+         pagination.html(pagination.text())
+      </script>
+   </body>
+</html>
+

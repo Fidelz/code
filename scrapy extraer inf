@@ -1,0 +1,133 @@
+Web https://www.redpiso.es/venta-viviendas/zaragoza/zaragoza (usar al final redpiso.es)
+
+source venv3/bin/activate
+scrapy shell https://www.redpiso.es/inmueble/piso-en-venta-en-calle-dona-blanca-de-navarra-delicias-zaragoza-zaragoza-RP186201841816
+
+-Tamaño: print(response.xpath('//div[@class = "property-icons"]//span[@class = "first"]//text()').extract_first())
+con m2 si se quiere quitar:
+
+size, size_measure = response.xpath('//div[@class = "property-icons"]//span[@class = "first"]//text()').extract_first().split()
+
+
+-Precio: 
+price, price_measure = response.xpath('//div[@class = "property-contact-item"]/h2//text()').extract_first().split()
+
+
+-Calle y Tipo (venta, alquiler o ambas): 
+dir = response.xpath('//div[@class = "property-contact-item"]/h1//text()').extract_first()
+
+if "en venta en" in dir:
+    street = dir.split("en venta en ",1)[1]
+    type = "Venta"
+elif "en alquiler en" in dir:
+    street = dir.split("en alquiler en ",1)[1]
+    type = "Alquiler"
+else:
+    street = dir.split("venta alquiler en ",1)[1]
+    type = "Venta/alquiler"
+
+
+
+dir = response.xpath('//img[@class = "lazy img-responsive thumbnail loaded"]//text()').extract()
+
+response.xpath('//div[@class = "col-lg-3 col-md-6 col-sm-6"]//a//img//@src').extract()
+
+response.xpath('//div[@class = "col-lg-3 col-md-6 col-sm-6"]//a//img//@data-original').extract_first()
+
+imgs = response.xpath('//div[@class = "col-lg-3 col-md-6 col-sm-6"]//a//img//@data-original').extract()
+
+
+
+
+
+
+-Precio: 
+price, price_measure = response.xpath('//div[@class = "property-list-location"]/h3//text()').extract_first().split()
+
+(quitar _first, luego se hara extrayendo elemento a elemento por <article> si se puede)
+
+
+-Tamaño: print(response.xpath('//div[@class = "property-list-options"]//div[@class = "property-list-options-item"]//text()').extract_first())
+con m2 si se quiere quitar:
+
+size, size_measure = response.xpath('//div[@class = "property-list-options"]//div[@class = "property-list-options-item"]//text()').extract_first().split()
+
+
+
+
+-Calle y Tipo (venta, alquiler o ambas): 
+dir = response.xpath('//div//a[@class = "item-link"]//text()').extract_first()
+
+if "en venta en" in dir:
+    street = dir.split("en venta en ",1)[1]
+    type = "Venta"
+elif "en alquiler en" in dir:
+    street = dir.split("en alquiler en ",1)[1]
+    type = "Alquiler"
+else:
+    street = dir.split("venta alquiler en ",1)[1]
+    type = "Venta/alquiler"
+
+
+street = street.split("venta en ",1)[1] or street.split("alquiler en ",1)[1]    #Piso en venta, alquiler o venta/alquiler
+
+
+
+
+
+scrapy shell https://www.redpiso.es/inmueble/
+
+source venv3/bin/activate
+scrapy runspider spider.py
+
+more redpiso.json | grep -o price | wc -l
+Elementos extraidos
+
+
+
+COMANDOS:
+(desde ~/practicas/jinja2):
+~/projects/quick_tutorial/env/bin/pserve development.ini --reload
+
+/home/fidel/code/fidel/env/bin/pserve development.ini --reload
+
+
+			Crear proyecto:
+python3 -m venv $VENV
+$VENV/bin/pip install --upgrade pip setuptools
+$VENV/bin/pip install pyramid waitress          #Waitress para WSGI (Gateway...)
+
+
+env/bin/pcreate -s starter fidel        #Crear proyecto plantilla
+
+
+cd /home/fidel/code/fidel/fidel
+/home/fidel/code/fidel/env/bin/pip install -e .  
+
+/home/fidel/code/fidel/env/bin/pserve development.ini --reload
+
+
+
+
+Postgree:
+sudo apt update
+sudo apt install postgresql
+
+Hay roles, iniciar sesion con 
+sudo -u postgres psql   (cambiar cuenta usuario y entrar a postgres)
+salir con \q
+
+crea rol con :  sudo -u postgres createuser --interactive   -> fidel -> y  (permiso superusuario)
+
+Crear database:  sudo -u fidel createdb fidel  (nombre fidel, el ultimo)
+sudo -u fidel psql
+
+Inicializar base de datos:
+/home/fidel/code/fidel/env/bin/initialize_fidel_db development.ini
+
+
+Listar bases de datos: \l
+Listar tablas: \dt
+Ver tabla: \d tabla_name       \d zone
+
+Eliminar tabla: drop table zone;
