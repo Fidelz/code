@@ -11,10 +11,14 @@ function initializeDrawPolygon(){
     //$(".leaflet-draw-draw-polygon").click();
 }
 
-// Add polygon to input before submit form
-$("#form_add_zone").submit(function(event) {
-    var polygon = JSON.stringify(lastLayer.toGeoJSON());
-    $("#polygon").val(polygon);
+// Add property to input before submit form
+$("#form_add_propierty").submit(function(event) {
+    var coord = lastLayer._latlng;
+    var lat = coord.lat;
+    var long = coord.lng;
+    $("#lat").val(lat);
+    $("#long").val(long);
+    event.preventDefault();   // !!!!!!!!!!!!REMOVE
 });
 
 var lastLayer = undefined;
@@ -45,16 +49,10 @@ var drawControlFull = new L.Control.Draw({
         remove: false
     },
     draw: {
-        polygon: {
-            allowIntersection: false,
-            shapeOptions: {
-                color: 'gray'
-            }
-        },
+        polygon: false,
         polyline: false,
         circle: false, // Turns off this drawing tool
         rectangle: false,
-        marker: false,
         circlemarker: false,
     }
 });
@@ -63,15 +61,6 @@ var drawControlEdit = new L.Control.Draw({
     position: 'topright',
     edit: {
         featureGroup: drawnItems,
-        poly: {
-            allowIntersection: false
-        },
-        remove: {
-            save: false
-        },
-        toolbar: {
-            actions: false
-        }
     },
     draw: false
 });
@@ -83,8 +72,6 @@ var drawControlNone = new L.Control.Draw({
 
 map.addControl(drawControlFull);
 
-//map.on('click', onMapClick);
-
 map.on("draw:created", function(event) {
     var layer = event.layer;
 
@@ -92,9 +79,23 @@ map.on("draw:created", function(event) {
     //No allow more creation
     drawControlFull.remove(map);
     drawControlEdit.addTo(map);
-    $("#form_add_zone").removeAttr("hidden");
+    $("#form_add_propierty").removeAttr("hidden");
     lastLayer = layer;
     $("#result").remove();
+    var coord = layer._latlng;
+    var lat = coord.lat;
+    var long = coord.lng;
+    layer.bindPopup("Lat: " + lat + "<br>Lng: " + long).openPopup();
+});
+
+map.on("draw:editmove", function(event) {
+    var layer = lastLayer;
+    //No allow more creation
+
+    var coord = layer._latlng;
+    var lat = coord.lat;
+    var long = coord.lng;
+    layer.bindPopup("Lat: " + lat + "<br>Lng: " + long).openPopup();
 });
 
 map.on("draw:deleted", function(event) {
@@ -102,7 +103,7 @@ map.on("draw:deleted", function(event) {
     if (lastLayer != undefined){
         map.removeLayer(lastLayer);
     }
-    $("#form_add_zone").attr("hidden", "true");
+    $("#form_add_propierty").attr("hidden", "true");
 });
 
 initializeDrawPolygon();

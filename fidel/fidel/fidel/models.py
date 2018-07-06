@@ -24,8 +24,10 @@ DBSession = scoped_session(
     sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
+
 def _get_date():
     return datetime.datetime.now()
+
 
 class Zone(Base):
     __tablename__ = 'zone'
@@ -34,12 +36,19 @@ class Zone(Base):
     polygon = Column(JSON, nullable=False)
     dateadd = Column(DateTime, nullable=False, default=_get_date)
 
+
 class Property(Base):
     __tablename__ = 'property'
     id = Column(Integer, primary_key=True)
     acronym = Column(Text, nullable=False)
     lat = Column(Float, nullable=False)
     long = Column(Float, nullable=False)
+
+
+class UserLogin(Base):
+    __tablename__ = 'userlogin'
+    username = Column(Text, primary_key=True)
+    password = Column(Text, nullable=False)
 
 
 class Root(object):

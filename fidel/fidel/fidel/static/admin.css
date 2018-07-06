@@ -1,0 +1,13 @@
+#title_page {
+     border-bottom-style: solid;
+}
+
+.link_page {
+     font-size: 20px;
+     font-weight: bold;
+     cursor: pointer;
+     border-style: ridge;
+     color: black;
+     text-decoration: none;
+     margin-top: 20px;
+} 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Administracion</title>
+    <link rel="stylesheet" href="{{request.static_url('fidel:static/admin.css') }}">
+</head>
+
+<body>
+    <h1 id="title_page">Administracion</h1>
+    <a class="link_page" href="map_zones">Zonas</a>
+    <a class="link_page" href="map_propierties">Propiedades</a>
+    <a class="link_page" href="create_user">Crear usuario</a>
+    <a class="link_page" href="logout">Cerrar sesion</a>
+
+    <div id="result">{{ result }}</div>
+</body>
+
+</html>

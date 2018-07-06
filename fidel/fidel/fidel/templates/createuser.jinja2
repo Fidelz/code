@@ -4,16 +4,17 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Iniciar sesion</title>
+    <title>Crear usuario</title>
     <link rel="stylesheet" href="{{request.static_url('fidel:static/map.css') }}">
 </head>
 
 <body>
-    <h1 id="title_page">Iniciar sesion</h1>
-    <form id="form_login" action="/login" method="POST">
+    <h1 id="title_page">Crear usuario</h1>
+    <a href="admin">&#9668</a>
+    <form id="form_login" action="/add_user" method="POST">
         <div>{{ form.username.label }}: {{ form.username(pattern="[A-Za-z0-9-_]+") }}</div>
         <div>{{ form.password.label }}: {{ form.password() }} </div>
-        <input id="button_login" type="submit" value="Iniciar sesion">
+        <input id="button_login" type="submit" value="Crear usuario">
     </form>
     <div id="result">{{ result }}</div>
 </body>
